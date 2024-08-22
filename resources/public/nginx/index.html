@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        function getHost() {
+          var h = location.protocol + '//' + location.host;
+          document.getElementById("myhost").innerHTML = h;
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="/main.css"/>
+	<title>welcome</title>
+	<style>
+		html{
+			background-color: #17421a;
+		}
+		
+		body{
+			color: #fefefe;
+		}
+	</style>
+</head>
+
+<body onload="getHost()">
+    <div class="error-middle">
+        <h1>Welcome : <span id="myhost"></span></h1>
+    </div>
+</body>
+</html>

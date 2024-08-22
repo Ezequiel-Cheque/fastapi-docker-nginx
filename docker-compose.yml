@@ -1,0 +1,48 @@
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    container_name:  app-example
+    command: >
+      sh -c 'python main.py'
+    volumes:
+      - .:/app
+    ports:
+      - ${PORT}:${PORT}
+    expose:
+      - ${PORT}
+    networks:
+      - example-nt
+  
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    restart: always
+    ports:
+    - 80:80
+    volumes:
+      - ./docker/nginx/config/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+    - example-nt
+    depends_on:
+      - app
+
+  jenkins:
+    build:
+      context: .
+      dockerfile: ./docker/jenkins/Dockerfile
+    restart: always
+    ports:
+      - 3000:8080
+      - 50000:50000
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+    environment:
+      - JENKINS_OPTS="--prefix=/jenkins"
+
+networks:
+  example-nt:
+    driver: bridge
